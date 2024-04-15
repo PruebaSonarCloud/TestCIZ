@@ -16,6 +16,8 @@
 		32A24A652BCDA55400E59DCC /* TestCIZTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A24A642BCDA55400E59DCC /* TestCIZTests.swift */; };
 		32A24A6F2BCDA55400E59DCC /* TestCIZUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A24A6E2BCDA55400E59DCC /* TestCIZUITests.swift */; };
 		32A24A712BCDA55400E59DCC /* TestCIZUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A24A702BCDA55400E59DCC /* TestCIZUITestsLaunchTests.swift */; };
+		32A24A7E2BCDB9D300E59DCC /* Calculadora.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A24A7D2BCDB9D300E59DCC /* Calculadora.swift */; };
+		32A24A802BCDBA3D00E59DCC /* CalculadoraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A24A7F2BCDBA3D00E59DCC /* CalculadoraTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		32A24A6A2BCDA55400E59DCC /* TestCIZUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestCIZUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		32A24A6E2BCDA55400E59DCC /* TestCIZUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCIZUITests.swift; sourceTree = "<group>"; };
 		32A24A702BCDA55400E59DCC /* TestCIZUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCIZUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		32A24A7D2BCDB9D300E59DCC /* Calculadora.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculadora.swift; sourceTree = "<group>"; };
+		32A24A7F2BCDBA3D00E59DCC /* CalculadoraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculadoraTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,7 @@
 				32A24A582BCDA55400E59DCC /* TestCIZ.entitlements */,
 				32A24A512BCDA55200E59DCC /* TestCIZ.xcdatamodeld */,
 				32A24A592BCDA55400E59DCC /* Preview Content */,
+				32A24A7D2BCDB9D300E59DCC /* Calculadora.swift */,
 			);
 			path = TestCIZ;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				32A24A642BCDA55400E59DCC /* TestCIZTests.swift */,
+				32A24A7F2BCDBA3D00E59DCC /* CalculadoraTests.swift */,
 			);
 			path = TestCIZTests;
 			sourceTree = "<group>";
@@ -266,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32A24A532BCDA55200E59DCC /* TestCIZ.xcdatamodeld in Sources */,
+				32A24A7E2BCDB9D300E59DCC /* Calculadora.swift in Sources */,
 				32A24A4E2BCDA55200E59DCC /* TestCIZApp.swift in Sources */,
 				32A24A552BCDA55200E59DCC /* ContentView.swift in Sources */,
 				32A24A502BCDA55200E59DCC /* Persistence.swift in Sources */,
@@ -277,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32A24A652BCDA55400E59DCC /* TestCIZTests.swift in Sources */,
+				32A24A802BCDBA3D00E59DCC /* CalculadoraTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
