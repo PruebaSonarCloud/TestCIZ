@@ -1,7 +1,6 @@
 workflows:
     ios-sonarcloud:
       name: iOS sonarcloud
-      instance_type: mac_pro
       environment:
         vars:
             XCODE_PROJECT: "TestCIZ.xcodeproj"
