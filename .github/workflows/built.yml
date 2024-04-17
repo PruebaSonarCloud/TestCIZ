@@ -8,13 +8,12 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-14
     env:
       MIN_COVERAGE_VALUE: 95
       
     steps:
-    #- uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     
     #- name: Install Sonar Scanner
       #run: brew install sonar-scanner
