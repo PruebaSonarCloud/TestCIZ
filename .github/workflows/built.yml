@@ -46,7 +46,7 @@ jobs:
       run: |
         result=$(awk -v n1=$MIN_COVERAGE_VALUE -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
-          echo "The minimun coverage is $MIN_COVERAGE_VALUE and you coverage is "${{ env.COVERAGE_VALUE }}"
+          echo "The minimun coverage is $MIN_COVERAGE_VALUE and you coverage is "${{ env.COVERAGE_VALUE }}
           exit 1
         else
           echo "Terrific! you coverage its over 95"
