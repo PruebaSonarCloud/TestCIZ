@@ -11,7 +11,7 @@ jobs:
 
     runs-on: macos-14
     env:
-      SONAR_PROJECT_KEY = ${{ env.SONAR_PROJECT_KEY }}
+      SONAR_PROJECT_KEY: ${{ env.SONAR_PROJECT_KEY }}
       MIN_COVERAGE_VALUE: 40
       
     steps:
