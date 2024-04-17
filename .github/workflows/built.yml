@@ -1,19 +1,32 @@
-name: Build
+name: Swift
+
 on:
   push:
     branches: [ "main" ]
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
+  build:
+
+    runs-on: macos-14
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - uses: actions/checkout@v3
+
+    - name: Xcode Setup
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.3'
+    
+    - uses: actions/checkout@v3
+    - uses: NiftyStack/install-cocoapods-action@1.0.0
+    - run: pod install
+    
+    - name: Build
+      run: |
+        xcodebuild build -workspace iOSTemplateLumton.xcworkspace -scheme iOSTemplateLumton clean build -sdk iphoneos CODE_SIGNING_ALLOWED=No
+    - name: Run tests
+      run: |
+        xcodebuild test -workspace iOSTemplateLumton.xcworkspace -scheme iOSTemplateLumton clean build -sdk iphoneos -destination "platform=iOS Simulator,OS=17.2,name=iPhone 15" CODE_SIGNING_ALLOWED=No
+
