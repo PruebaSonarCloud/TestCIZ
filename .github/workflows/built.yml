@@ -1,4 +1,5 @@
 name: Swift
+description: Action for continuos integration
 inputs:
    MIN_COVERAGE_VALUE:
     description: Minimum coverage value
