@@ -32,4 +32,17 @@ jobs:
       run: |
         chmod +x ./xccov-to-sonarqube-generic.sh
         ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
+    - name: Generate and upload code analysis report
+      run: |
+        sonar-scanner \
+        -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
+        -Dsonar.organization=pruebasonarcloud-2 \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+        -Dsonar.sources=. \
+        -Dsonar.cfamily.build-wrapper-output.bypass=true \
+        -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml \
+        -Dsonar.c.file.suffixes=- \
+        -Dsonar.cpp.file.suffixes=- \
+        -Dsonar.objc.file.suffixes=- \
 
