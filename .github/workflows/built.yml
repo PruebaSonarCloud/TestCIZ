@@ -11,9 +11,12 @@ jobs:
 
     runs-on: macos-14
     env:
-      MIN_COVERAGE_VALUE: 40
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
       SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      MIN_COVERAGE_VALUE: 40
+      MIN_BUGS_VALUE: 0
+      MIN_HOTSPOTS_VALUE: 0
+      MIN_EFFORT_VALUE: 60
       
     steps:
     - uses: actions/checkout@v3
@@ -54,5 +57,20 @@ jobs:
         else
           echo "Terrific! you coverage its over 95"
         fi
+    - name: Check Bugs
+      run: |
+        
+        result=$(awk -v n1="$BUGS_VALUE" -v n2=$MIN_BUGS_VALUE 'BEGIN {print (n1 > n2)}')
+        echo "Result: $result"
+
+        if [[ "$result" -eq 1 ]]; then
+          echo "There are some bugs to review."
+          echo "Number of bugs: $BUGS_VALUE"
+          echo "Allowed bugs: $MIN_BUGS_VALUE"
+          exit 1
+        else
+          echo "Terrific! Your bugs are okay."
+        fi
+
       
 
