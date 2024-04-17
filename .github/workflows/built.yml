@@ -21,7 +21,7 @@ jobs:
     
     - name: Build
       run: |
-        set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "$destination" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+        set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
     - name: Run tests
       run: |
         xcodebuild test -project TestCIZ.xcodeproj -scheme TestCIZ clean build -sdk iphoneos -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" CODE_SIGNING_ALLOWED=No
