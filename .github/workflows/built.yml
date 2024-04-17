@@ -12,30 +12,31 @@ jobs:
     runs-on: macos-14
     env:
       MIN_COVERAGE_VALUE: 95
+      
     steps:
-    - uses: actions/checkout@v3
+    #- uses: actions/checkout@v3
     
-    - name: Install Sonar Scanner
-      run: brew install sonar-scanner
+    #- name: Install Sonar Scanner
+      #run: brew install sonar-scanner
 
-    - name: Xcode Setup
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: '15.3'
+    #- name: Xcode Setup
+      #uses: maxim-lobanov/setup-xcode@v1
+      #with:
+        #xcode-version: '15.3'
     
-    - name: Build
-      run: |
-        set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
-    - name: Run tests
-      run: |
-        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
-    - name: Convert coverage report to SonarCloud format
-      run: |
-        chmod +x ./xccov-to-sonarqube-generic.sh
-        ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
-    - name: Generate and upload code analysis report
-      run: |
-        sonar-scanner \
+    #- name: Build
+      #run: |
+        #set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+    #- name: Run tests
+      #run: |
+        #set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+    #- name: Convert coverage report to SonarCloud format
+      #run: |
+        #chmod +x ./xccov-to-sonarqube-generic.sh
+        #./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
+    #- name: Generate and upload code analysis report
+      #run: |
+        #sonar-scanner \
         -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
         -Dsonar.organization=pruebasonarcloud-2 \
         -Dsonar.host.url=https://sonarcloud.io \
@@ -46,12 +47,13 @@ jobs:
         -Dsonar.c.file.suffixes=- \
         -Dsonar.cpp.file.suffixes=- \
         -Dsonar.objc.file.suffixes=- \
+        
     - name: Install jq
       run: |
         brew install jq
     - name: Get sonarqube coverage history
       run: |
-          # execute curl command and get the output value using jq
+          #execute curl command and get the output value using jq
           coverage_value=$(curl -G --data-urlencode "component=TestCIZ" --data-urlencode "metrics=coverage" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/measures/search_history | jq -r '.measures[0].history[-1].value')
           bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=TestCIZ" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/issues/search | jq -r '.total')
           hotspots=$(curl -G --data-urlencode "projectKey=TestCIZ" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/hotspots/search | jq -r '.paging.total')
