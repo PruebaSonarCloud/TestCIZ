@@ -1,11 +1,5 @@
 name: Swift
-description: Action for continuos integration
-inputs:
-   MIN_COVERAGE_VALUE:
-    description: Minimum coverage value
-    required: false
-    default: 95
-    type: integer
+
 on:
   push:
     branches: [ "main" ]
@@ -16,7 +10,13 @@ jobs:
   build:
 
     runs-on: macos-14
-
+    inputs:
+      MIN_COVERAGE_VALUE:
+        description: Minimum coverage value
+        required: false
+        default: 95
+        type: integer
+      
     steps:
     - uses: actions/checkout@v3
     
