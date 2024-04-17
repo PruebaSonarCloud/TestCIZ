@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    #- name: Install Sonar Scanner
-      #run: brew install sonar-scanner
+    - name: Install Sonar Scanner
+      run: brew install sonar-scanner
 
     #- name: Xcode Setup
       #uses: maxim-lobanov/setup-xcode@v1
