@@ -40,7 +40,7 @@ jobs:
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
           echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
           echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
-          echo "El coverage es" $COVERAGE_VALUE
+          echo "El coverage es" ${{ env.COVERAGE_VALUE }}
           
     - name: Check Coverage
       run: |
