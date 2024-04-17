@@ -13,6 +13,7 @@ jobs:
     env:
       MIN_COVERAGE_VALUE: 40
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
       
     steps:
     - uses: actions/checkout@v3
@@ -33,10 +34,10 @@ jobs:
       run: |
           # execute curl command and get the output value using jq
           echo "sonar token" ${{ secrets.SONAR_TOKEN }}
-          coverage_value=$(curl -G --data-urlencode "component=$SONAR_PROJECT_KEY" --data-urlencode "metrics=coverage" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/measures/search_history | jq -r '.measures[0].history[-1].value')
-          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=$SONAR_PROJECT_KEY" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/issues/search | jq -r '.total')
-          hotspots=$(curl -G --data-urlencode "projectKey=$SONAR_PROJECT_KEY" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/hotspots/search | jq -r '.paging.total')
-          effort_total=$(curl -G --data-urlencode "componentKeys=$SONAR_PROJECT_KEY" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: https://sonarcloud.io/api/issues/search | jq -r '.effortTotal')
+          coverage_value=$(curl -G --data-urlencode "component=$SONAR_PROJECT_KEY" --data-urlencode "metrics=coverage" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/measures/search_history | jq -r '.measures[0].history[-1].value')
+          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=$SONAR_PROJECT_KEY" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/issues/search | jq -r '.total')
+          hotspots=$(curl -G --data-urlencode "projectKey=$SONAR_PROJECT_KEY" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/hotspots/search | jq -r '.paging.total')
+          effort_total=$(curl -G --data-urlencode "componentKeys=$SONAR_PROJECT_KEY" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/issues/search | jq -r '.effortTotal')
           # print the coverage value
           echo "COVERAGE_VALUE=$coverage_value" >> $GITHUB_ENV
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
