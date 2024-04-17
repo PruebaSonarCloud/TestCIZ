@@ -39,6 +39,8 @@ jobs:
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
           echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
           echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
+          echo "El coverage es" $COVERAGE_VALUE
+          
     - name: Check Coverage
       run: |
         result=$(awk -v n1=$MIN_COVERAGE_VALUE -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
