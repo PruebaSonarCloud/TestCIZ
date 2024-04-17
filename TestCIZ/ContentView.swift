@@ -30,9 +30,9 @@ struct ContentView: View {
             }
             .toolbar {
 //#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
+                /*ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
-                }
+                }*/
 //#endif
                 ToolbarItem {
                     Button(action: addItem) {
