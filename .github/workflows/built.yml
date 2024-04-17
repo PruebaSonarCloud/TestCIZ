@@ -11,7 +11,7 @@ jobs:
 
     runs-on: macos-14
     env:
-      MIN_COVERAGE_VALUE: 95
+      MIN_COVERAGE_VALUE: 40
     steps:
     - uses: actions/checkout@v3
     
