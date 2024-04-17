@@ -1,5 +1,10 @@
 name: Swift
-
+inputs:
+   MIN_COVERAGE_VALUE:
+    description: Minimum coverage value
+    required: false
+    default: 95
+    type: integer
 on:
   push:
     branches: [ "main" ]
@@ -60,5 +65,14 @@ jobs:
           echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
           echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
           echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
+    - name: Check Coverage
+      run: |
+        result=$(awk -v n1=${{inputs.MIN_COVERAGE_VALUE}} -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "The minimun coverage is "${{ inputs.MIN_COVERAGE_VALUE }}" and you coverage is "${{ env.COVERAGE_VALUE }}
+          exit 1
+        else
+          echo "Terrific! you coverage its over 95"
+        fi
       
 
