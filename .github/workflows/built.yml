@@ -82,6 +82,17 @@ jobs:
         else
           echo "Terrific! your hotspots are ok"
         fi
+    - name: Check Techical debt
+      run: |
+        result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "The debt its greater than maximum allowed."
+          echo "Number of debt in minutes : " $EFFORT_VALUE
+          echo "Allowed debt in minutes: " $MIN_EFFORT_VALUE
+          exit 1
+        else
+          echo "Terrific! your debt it's ok"
+        fi
 
       
 
