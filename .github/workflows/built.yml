@@ -47,6 +47,15 @@ jobs:
           echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
           echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
           
+    - uses: mshick/add-pr-comment@v2
+      with:
+          message: |
+            🐺🐺 Resume of results  🐺🐺
+            📕Coverage: $COVERAGE_VALUE
+            🐛Bugs: $env.BUGS_VALUE
+            🚓Security Hotspots : $env.HOTSPOTS_VALUE
+            💻Debt: $EFFORT_VALUE
+          
     - name: Check Coverage
       run: |
         echo "El coverage es "${{ env.COVERAGE_VALUE }}
