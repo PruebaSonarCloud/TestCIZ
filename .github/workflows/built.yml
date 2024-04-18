@@ -71,6 +71,17 @@ jobs:
         else
           echo "Terrific! Your bugs are okay."
         fi
+    - name: Check Hotspots
+      run: |
+        result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "There are some hotspots to review."
+          echo "Number of hotspots: " $HOTSPOTS_VALUE
+          echo "Allowed hotspots: " $MIN_HOTSPOTS_VALUE
+          exit 1
+        else
+          echo "Terrific! your hotspots are ok"
+        fi
 
       
 
