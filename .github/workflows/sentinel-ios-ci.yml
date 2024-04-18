@@ -14,10 +14,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Execute sentinel
-      uses: ./.github/workflows/pruebax
+    - name: Execute Continuous Integration Action
+      uses: ./.github/workflows/continuous-integration-action.yml
       with:
-        SONAR_PROJECT_NAME = ${{ vars.SONAR_PROJECT_KEY }}
+        SONAR_PROJECT_NAME: ${{ secrets.SONAR_PROJECT_KEY }}
+
 
     
     

@@ -1,0 +1,16 @@
+name: 'Continuous Integration Action'
+description: 'Action for continuous integration'
+inputs:
+  SONAR_PROJECT_NAME:
+    description: 'Sonarqube project name'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Make some tests
+      run: echo "${{ inputs.SONAR_PROJECT_NAME }}"
+      shell: bash
+
