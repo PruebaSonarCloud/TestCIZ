@@ -29,7 +29,29 @@ jobs:
       with:
         xcode-version: '15.3'
     
-    
+    - name: Build
+      run: |
+        set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+    - name: Run tests
+      run: |
+        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+    - name: Convert coverage report to SonarCloud format
+      run: |
+        chmod +x ./xccov-to-sonarqube-generic.sh
+        ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
+    - name: Generate and upload code analysis report
+      run: |
+        sonar-scanner \
+        -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
+        -Dsonar.organization=pruebasonarcloud-2 \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+        -Dsonar.sources=. \
+        -Dsonar.cfamily.build-wrapper-output.bypass=true \
+        -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml \
+        -Dsonar.c.file.suffixes=- \
+        -Dsonar.cpp.file.suffixes=- \
+        -Dsonar.objc.file.suffixes=- \
     - name: Install jq
       run: |
         brew install jq
