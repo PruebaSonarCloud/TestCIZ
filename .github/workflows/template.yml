@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-14
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
     - name: Execute Continuous Integration Action
       uses: PruebaSonarCloud/TestCIZ/.github/actions/continuous-integration-action@main
