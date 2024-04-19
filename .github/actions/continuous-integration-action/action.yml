@@ -1,8 +1,8 @@
-name: 'Continuous Integration Action'
-description: 'Action for continuous integration'
+name: continuous-integration-action
+description: Action for continuous integration
 inputs:
   SONAR_PROJECT_NAME:
-    description: 'Sonarqube project name'
+    description: Sonarqube project name
     required: true
 
 runs:
@@ -12,5 +12,6 @@ runs:
 
     - name: Make some tests
       run: echo "${{ inputs.SONAR_PROJECT_NAME }}"
-      shell: bash
+      
+
 

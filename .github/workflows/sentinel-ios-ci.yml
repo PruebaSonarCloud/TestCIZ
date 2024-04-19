@@ -15,9 +15,10 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: Execute Continuous Integration Action
-      uses: ./.github/workflows/action.yml
+      uses: ./.github/actions/continuous-integration-action@main
       with:
-        SONAR_PROJECT_NAME: ${{ secrets.SONAR_PROJECT_KEY }}
+        SONAR_PROJECT_NAME: ${{ vars.SONAR_PROJECT_KEY }}
+
 
 
     
