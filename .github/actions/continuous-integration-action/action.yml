@@ -74,6 +74,7 @@ runs:
         -Dsonar.c.file.suffixes=- \
         -Dsonar.cpp.file.suffixes=- \
         -Dsonar.objc.file.suffixes=- \
+      shell: bash
     - name: Install jq
       run: |
         brew install jq
