@@ -1,9 +1,35 @@
 name: continuous-integration-action
 description: Action for continuous integration
 inputs:
-  SONAR_PROJECT_NAME:
-    description: Sonarqube project name
+  SONAR_PROJECT_KEY:
+    description: Sonarqube project key
     required: true
+  SONAR_HOST_URL:
+    description: Sonarqube host url
+    required: true
+  SONARQUBE_TOKEN:
+    description: Sonarqube token
+    required: true
+  MIN_COVERAGE_VALUE:
+    description: Minimum coverage value
+    required: false
+    default: 40
+    type: integer
+  MIN_BUGS_VALUE:
+    description: Minimum bugs value
+    required: false
+    default: 0
+    type: integer
+  MIN_HOTSPOTS_VALUE:
+    description: Minimum hotspots value
+    required: false
+    default: 0
+    type: integer
+  MIN_EFFORT_VALUE:
+    description: Minimum effort value
+    required: false
+    default: 60
+    type: integer
 
 runs:
   using: 'composite'
@@ -11,8 +37,11 @@ runs:
     - uses: actions/checkout@v3
 
     - name: Make some tests
-      run: echo "${{ inputs.SONAR_PROJECT_NAME }}"
+      run: echo "${{ inputs.SONAR_PROJECT_KEY }}"
+      run: echo "${{ inputs.SONAR_HOST_URL }}"
+      run: echo "${{ inputs.SONARQUBE_TOKEN }}"
       shell: bash
+    
       
 
 
