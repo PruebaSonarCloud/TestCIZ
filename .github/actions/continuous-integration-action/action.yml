@@ -39,8 +39,8 @@ runs:
     - name: Make some tests
       run: |
       echo "${{ inputs.SONAR_PROJECT_KEY }}"
-      echo "${{ inputs.SONAR_HOST_URL }}"
-      echo "${{ inputs.SONARQUBE_TOKEN }}"
+      #echo "${{ inputs.SONAR_HOST_URL }}"
+      #echo "${{ inputs.SONARQUBE_TOKEN }}"
       shell: bash
     
       
