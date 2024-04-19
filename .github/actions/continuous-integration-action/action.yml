@@ -48,7 +48,6 @@ runs:
     - name: Build
       run: |
         set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
-    
-      
+      shell: bash
 
 
