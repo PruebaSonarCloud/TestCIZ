@@ -32,7 +32,7 @@ inputs:
     type: integer
 
 runs:
-  #using: 'composite'
+  using: 'composite'
   steps:
     - uses: actions/checkout@v3
 
