@@ -39,6 +39,11 @@ runs:
     - name: Install Sonar Scanner
       run: brew install sonar-scanner
       shell: bash
+    
+    - name: Xcode Setup
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: '15.3'
       
 
 
