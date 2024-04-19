@@ -12,6 +12,7 @@ runs:
 
     - name: Make some tests
       run: echo "${{ inputs.SONAR_PROJECT_NAME }}"
+      shell: bash
       
 
 
