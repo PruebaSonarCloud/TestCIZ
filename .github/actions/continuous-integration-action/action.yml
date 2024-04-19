@@ -49,5 +49,110 @@ runs:
       run: |
         set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
       shell: bash
+      
+    - name: Run tests
+      run: |
+        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+      shell: bash
+      
+    - name: Convert coverage report to SonarCloud format
+      run: |
+        chmod +x ./xccov-to-sonarqube-generic.sh
+        ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
+      shell: bash
+      
+    - name: Generate and upload code analysis report
+      run: |
+        sonar-scanner \
+        -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
+        -Dsonar.organization=pruebasonarcloud-2 \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+        -Dsonar.sources=. \
+        -Dsonar.cfamily.build-wrapper-output.bypass=true \
+        -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml \
+        -Dsonar.c.file.suffixes=- \
+        -Dsonar.cpp.file.suffixes=- \
+        -Dsonar.objc.file.suffixes=- \
+    - name: Install jq
+      run: |
+        brew install jq
+      shell: bash
+    - name: Get sonarqube coverage history
+      run: |
+          # execute curl command and get the output value using jq
+          echo "sonar token" ${{ secrets.SONAR_TOKEN }}
+          coverage_value=$(curl -G --data-urlencode "component=$SONAR_PROJECT_KEY" --data-urlencode "metrics=coverage" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/measures/search_history | jq -r '.measures[0].history[-1].value')
+          bugs_vulnerability=$(curl -G --data-urlencode "componentKeys=$SONAR_PROJECT_KEY" --data-urlencode "types=BUG,VULNERABILITY" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/issues/search | jq -r '.total')
+          hotspots=$(curl -G --data-urlencode "projectKey=$SONAR_PROJECT_KEY" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/hotspots/search | jq -r '.paging.total')
+          effort_total=$(curl -G --data-urlencode "componentKeys=$SONAR_PROJECT_KEY" --data-urlencode "types=CODE_SMELL" --data-urlencode "statuses=OPEN,REOPENED" -s -u ${{ secrets.SONAR_TOKEN }}: $SONAR_HOST_URL/api/issues/search | jq -r '.effortTotal')
+          # print the coverage value
+          echo "COVERAGE_VALUE=$coverage_value" >> $GITHUB_ENV
+          echo "BUGS_VALUE=$bugs_vulnerability" >> $GITHUB_ENV
+          echo "HOTSPOTS_VALUE=$hotspots" >> $GITHUB_ENV
+          echo "EFFORT_VALUE=$effort_total" >> $GITHUB_ENV
+      shell: bash
+          
+    - uses: mshick/add-pr-comment@v2
+      with:
+          message: |
+            🐺🐺 Resume of results  🐺🐺
+            📕Coverage: $COVERAGE_VALUE
+            🐛Bugs: $env.BUGS_VALUE
+            🚓Security Hotspots : $env.HOTSPOTS_VALUE
+            💻Debt: $EFFORT_VALUE
+      shell: bash
+          
+    - name: Check Coverage
+      run: |
+        echo "El coverage es "${{ env.COVERAGE_VALUE }}
+        result=$(awk -v n1=$MIN_COVERAGE_VALUE -v n2="$COVERAGE_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "The minimun coverage is $MIN_COVERAGE_VALUE and you coverage is "${{ env.COVERAGE_VALUE }}
+          exit 1
+        else
+          echo "Terrific! you coverage its over 95"
+        fi
+      shell: bash
+    - name: Check Bugs
+      run: |
+        
+        result=$(awk -v n1="$BUGS_VALUE" -v n2=$MIN_BUGS_VALUE 'BEGIN {print (n1 > n2)}')
+        echo "Result: $result"
+
+        if [[ "$result" -eq 1 ]]; then
+          echo "There are some bugs to review."
+          echo "Number of bugs: $BUGS_VALUE"
+          echo "Allowed bugs: $MIN_BUGS_VALUE"
+          exit 1
+        else
+          echo "Terrific! Your bugs are okay."
+        fi
+      shell: bash
+    - name: Check Hotspots
+      run: |
+        result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "There are some hotspots to review."
+          echo "Number of hotspots: " $HOTSPOTS_VALUE
+          echo "Allowed hotspots: " $MIN_HOTSPOTS_VALUE
+          exit 1
+        else
+          echo "Terrific! your hotspots are ok"
+        fi
+      shell: bash
+    - name: Check Techical debt
+      run: |
+        echo "Deuda técnica: $EFFORT_VALUE"
+        result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
+        if [[ $result -eq 1 ]]; then
+          echo "The debt its greater than maximum allowed."
+          echo "Number of debt in minutes : " $EFFORT_VALUE
+          echo "Allowed debt in minutes: " $MIN_EFFORT_VALUE
+          exit 1
+        else
+          echo "Terrific! your debt it's ok"
+        fi
+      shell: bash
 
 
