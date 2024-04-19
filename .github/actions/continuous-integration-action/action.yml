@@ -102,7 +102,6 @@ runs:
             🐛Bugs: $env.BUGS_VALUE
             🚓Security Hotspots : $env.HOTSPOTS_VALUE
             💻Debt: $EFFORT_VALUE
-      shell: bash
           
     - name: Check Coverage
       run: |
