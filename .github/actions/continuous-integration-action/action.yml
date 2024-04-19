@@ -10,26 +10,26 @@ inputs:
   SONARQUBE_TOKEN:
     description: Sonarqube token
     required: true
-  MIN_COVERAGE_VALUE:
-    description: Minimum coverage value
-    required: false
-    default: 40
-    type: integer
-  MIN_BUGS_VALUE:
-    description: Minimum bugs value
-    required: false
-    default: 0
-    type: integer
-  MIN_HOTSPOTS_VALUE:
-    description: Minimum hotspots value
-    required: false
-    default: 0
-    type: integer
-  MIN_EFFORT_VALUE:
-    description: Minimum effort value
-    required: false
-    default: 60
-    type: integer
+  #MIN_COVERAGE_VALUE:
+    #description: Minimum coverage value
+    #required: false
+    #default: 40
+    #type: integer
+  #MIN_BUGS_VALUE:
+    #description: Minimum bugs value
+    #required: false
+    #default: 0
+    #type: integer
+  #MIN_HOTSPOTS_VALUE:
+    #description: Minimum hotspots value
+    #required: false
+    #default: 0
+    #type: integer
+  #MIN_EFFORT_VALUE:
+    #description: Minimum effort value
+    #required: false
+    #default: 60
+    #type: integer
 
 runs:
   using: 'composite'
