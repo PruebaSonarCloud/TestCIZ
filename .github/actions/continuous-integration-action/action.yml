@@ -50,6 +50,14 @@ runs:
         set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
       shell: bash
       
+    - name: Cache DerivedData
+      uses: actions/cache@v3
+      with:
+      path: Build/
+      key: ${{ runner.os }}-derived-data-${{ hashFiles('**/project.pbxproj') }}
+      restore-keys: |
+        ${{ runner.os }}-derived-data-
+      
     - name: Run tests
       run: |
         set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
