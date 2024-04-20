@@ -58,6 +58,17 @@ runs:
         restore-keys: |
           ${{ runner.os }}-derived-data-
       
+    - name: Run tests
+      run: |
+        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES
+      shell: bash
+      
+    - name: Convert coverage report to SonarCloud format
+      run: |
+        chmod +x ./xccov-to-sonarqube-generic.sh
+        ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
+      shell: bash
+      
     - name: Generate and upload code analysis report
       run: |
         #sonar-scanner \
