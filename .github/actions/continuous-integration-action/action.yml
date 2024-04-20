@@ -58,12 +58,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-derived-data-
       
-    - name: Convert coverage report to SonarCloud format
-      run: |
-        chmod +x ./xccov-to-sonarqube-generic.sh
-        ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
-      shell: bash
-      
     - name: Generate and upload code analysis report
       run: |
         #sonar-scanner \
