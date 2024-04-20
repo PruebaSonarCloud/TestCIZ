@@ -19,7 +19,7 @@ jobs:
       with:
         SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-        SONARQUBE_TOKEN : ${{ secrets.SONARQUBE_TOKEN }}
+        SONARQUBE_TOKEN : ${{ secrets.SONAR_TOKEN }}
         
 
 
