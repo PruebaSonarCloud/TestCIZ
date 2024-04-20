@@ -64,7 +64,7 @@ runs:
         -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
         -Dsonar.organization=pruebasonarcloud-2 \
         -Dsonar.host.url=https://sonarcloud.io \
-        -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+        -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }} \
         -Dsonar.sources=. \
         -Dsonar.cfamily.build-wrapper-output.bypass=true \
         -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml \
