@@ -30,6 +30,12 @@ inputs:
     required: false
     default: 60
     type: integer
+ env:
+  COVERAGE_VALUE: 0
+  BUGS_VALUE: 0
+  HOTSPOTS_VALUE: 0
+  EFFORT_VALUE: 0
+  
 
 runs:
   using: 'composite'
