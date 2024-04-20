@@ -53,10 +53,10 @@ runs:
     - name: Cache DerivedData
       uses: actions/cache@v3
       with:
-      path: Build/
-      key: ${{ runner.os }}-derived-data-${{ hashFiles('**/project.pbxproj') }}
-      restore-keys: |
-        ${{ runner.os }}-derived-data-
+        path: Build/
+        key: ${{ runner.os }}-derived-data-${{ hashFiles('**/project.pbxproj') }}
+        restore-keys: |
+          ${{ runner.os }}-derived-data-
       
     - name: Run tests
       run: |
