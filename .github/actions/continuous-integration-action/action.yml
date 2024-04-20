@@ -47,35 +47,24 @@ runs:
         
     - name: Build
       run: |
-        #set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+        set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
       shell: bash
-      
-    - name: Cache DerivedData
-      uses: actions/cache@v3
-      with:
-        path: Build/
-        key: ${{ runner.os }}-derived-data-${{ hashFiles('**/project.pbxproj') }}
-        restore-keys: |
-          ${{ runner.os }}-derived-data-
-      
     - name: Run tests
       run: |
-        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES
+        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
       shell: bash
-      
     - name: Convert coverage report to SonarCloud format
       run: |
         chmod +x ./xccov-to-sonarqube-generic.sh
         ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
       shell: bash
-      
     - name: Generate and upload code analysis report
       run: |
-        #sonar-scanner \
+        sonar-scanner \
         -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
         -Dsonar.organization=pruebasonarcloud-2 \
         -Dsonar.host.url=https://sonarcloud.io \
-        -Dsonar.login=${{ inputs.SONARQUBE_TOKEN }} \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
         -Dsonar.sources=. \
         -Dsonar.cfamily.build-wrapper-output.bypass=true \
         -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml \
