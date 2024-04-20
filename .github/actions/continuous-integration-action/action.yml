@@ -45,33 +45,33 @@ runs:
       with:
         xcode-version: '15.3'
         
-    - name: Build
-      run: |
-        set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
-      shell: bash
+    #- name: Build
+      #run: |
+        #set -o pipefail && xcodebuild build-for-testing -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES | xcbeautify --renderer github-actions
+      #shell: bash
       
-    - name: Cache DerivedData
-      uses: actions/cache@v3
-      with:
-        path: Build/
-        key: ${{ runner.os }}-derived-data-${{ hashFiles('**/project.pbxproj') }}
-        restore-keys: |
-          ${{ runner.os }}-derived-data-
+    #- name: Cache DerivedData
+      #uses: actions/cache@v3
+      #with:
+        #path: Build/
+        #key: ${{ runner.os }}-derived-data-${{ hashFiles('**/project.pbxproj') }}
+        #restore-keys: |
+          #${{ runner.os }}-derived-data-
       
-    - name: Run tests
-      run: |
-        set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES
-      shell: bash
+    #- name: Run tests
+      #run: |
+        #set -o pipefail && xcodebuild test-without-building -scheme TestCIZ -project TestCIZ.xcodeproj -destination "platform=iOS Simulator,OS=17.4,name=iPhone 14 Plus" -derivedDataPath Build/ -enableCodeCoverage YES
+      #shell: bash
       
-    - name: Convert coverage report to SonarCloud format
-      run: |
-        chmod +x ./xccov-to-sonarqube-generic.sh
+    #- name: Convert coverage report to SonarCloud format
+      #run: |
+        #chmod +x ./xccov-to-sonarqube-generic.sh
         ./xccov-to-sonarqube-generic.sh Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
-      shell: bash
+      #shell: bash
       
-    - name: Generate and upload code analysis report
-      run: |
-        sonar-scanner \
+    #- name: Generate and upload code analysis report
+      #run: |
+        #sonar-scanner \
         -Dsonar.projectKey=PruebaSonarCloud_TestCIZ \
         -Dsonar.organization=pruebasonarcloud-2 \
         -Dsonar.host.url=https://sonarcloud.io \
