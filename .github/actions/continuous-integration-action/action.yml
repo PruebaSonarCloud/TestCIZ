@@ -113,15 +113,15 @@ runs:
       shell: bash
     - name: Check Bugs
       run: |
-        echo "Number of bugs mio: $BUGS_VALUE"
-        echo "Allowed bugs mio: $MIN_BUGS_VALUE"
-        result=$(awk -v n1="$BUGS_VALUE" -v n2=$MIN_BUGS_VALUE 'BEGIN {print (n1 > n2)}')
+        echo "Number of bugs mio: ${{ env.BUGS_VALUE }}"
+        echo "Allowed bugs mio: ${{ inputs.MIN_BUGS_VALUE }}"
+        result=$(awk -v n1="${{ env.BUGS_VALUE }}" -v n2="${{ inputs.MIN_BUGS_VALUE }}" 'BEGIN {print (n1 > n2)}')
         echo "Result: $result"
 
         if [[ "$result" -eq 1 ]]; then
           echo "There are some bugs to review."
-          echo "Number of bugs: $BUGS_VALUE"
-          echo "Allowed bugs: $MIN_BUGS_VALUE"
+          echo "Number of bugs: ${{ env.BUGS_VALUE }}"
+          echo "Allowed bugs: ${{ inputs.MIN_BUGS_VALUE }}"
           exit 1
         else
           echo "Terrific! Your bugs are okay."
@@ -129,7 +129,7 @@ runs:
       shell: bash
     - name: Check Hotspots
       run: |
-        result=$(awk -v n1="$HOTSPOTS_VALUE" -v n2="$MIN_HOTSPOTS_VALUE" 'BEGIN {print (n1 > n2)}')
+        result=$(awk -v n1="${{ env.HOTSPOTS_VALUE }}" -v n2="${{ inputs.MIN_HOTSPOTS_VALUE }}" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
           echo "There are some hotspots to review."
           echo "Number of hotspots: " $HOTSPOTS_VALUE
@@ -141,12 +141,12 @@ runs:
       shell: bash
     - name: Check Techical debt
       run: |
-        echo "Deuda técnica: $EFFORT_VALUE"
-        result=$(awk -v n1="$EFFORT_VALUE" -v n2="$MIN_EFFORT_VALUE" 'BEGIN {print (n1 > n2)}')
+        echo "Deuda técnica: ${{ env.EFFORT_VALUE }}"
+        result=$(awk -v n1="${{ env.EFFORT_VALUE }}" -v n2="${{ inputs.MIN_EFFORT_VALUE }}" 'BEGIN {print (n1 > n2)}')
         if [[ $result -eq 1 ]]; then
           echo "The debt its greater than maximum allowed."
-          echo "Number of debt in minutes : " $EFFORT_VALUE
-          echo "Allowed debt in minutes: " $MIN_EFFORT_VALUE
+          echo "Number of debt in minutes : " ${{ env.EFFORT_VALUE }}
+          echo "Allowed debt in minutes: " ${{ inputs.MIN_EFFORT_VALUE }}
           exit 1
         else
           echo "Terrific! your debt it's ok"
